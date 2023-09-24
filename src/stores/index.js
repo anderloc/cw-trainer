@@ -13,6 +13,8 @@ export const useSettingsStore = create((set) => ({
   setOutputAudioPitch: (outputAudioPitch) => set({outputAudioPitch}),
   outputVolume: 100,
   setOutputVolume: (outputVolume) => set({outputVolume}),
+  enableSettingUpdates: true,
+  setEnableSettingUpdates: (enableSettingUpdates) => set({enableSettingUpdates})
 }))
 
 export const useTrainerStore = create((set) => ({

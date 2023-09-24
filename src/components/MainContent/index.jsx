@@ -10,7 +10,8 @@ export const MainContent = (props) => {
     numberOfCharacters,
     outputAudioPitch,
     farnsworthWPM,
-    outputWPM
+    outputWPM,
+    setEnableSettingUpdates
   } = useSettingsStore()
   
   const {
@@ -30,6 +31,7 @@ export const MainContent = (props) => {
       setShowErrorDialog(true)
       return;
     }
+    setEnableSettingUpdates(false)
     setCharactersLeft(numberOfCharacters)
     setIsStartDisabled(true)
     setIsStopDisabled(false)
@@ -60,6 +62,7 @@ export const MainContent = (props) => {
     setIsTestDisabled(false)
     setIsStopDisabled(true)
     setIsStopButtonClicked(false)
+    setEnableSettingUpdates(true)
   }
 
   const handleStopClick = () => {
@@ -68,6 +71,7 @@ export const MainContent = (props) => {
 
   const handleTestClick = async () => {
     const testWord = 'cwtrainer';
+    setEnableSettingUpdates(false)
     setIsStartDisabled(true)
     setIsStopDisabled(false)
     setIsTestDisabled(true)
@@ -88,6 +92,7 @@ export const MainContent = (props) => {
     setIsTestDisabled(false)
     setIsStopDisabled(true)
     setIsStopButtonClicked(false)
+    setEnableSettingUpdates(true)
   }
 
   return (

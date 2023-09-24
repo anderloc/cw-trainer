@@ -11,6 +11,7 @@ export const NumberInput = (props) => {
     onChange,
     initialValue
   } = props
+  const enable = (props.enable === true)
 
   const [number, setNumber] = useState(initialValue)
   const [oldNumber, setOldNumber] = useState(initialValue)
@@ -52,6 +53,7 @@ export const NumberInput = (props) => {
         onClickAway={normalizeNumberInput}
       >
         <input
+          disabled={!enable}
           type='number'
           min={min}
           max={max}

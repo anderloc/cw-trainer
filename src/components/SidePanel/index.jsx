@@ -21,7 +21,8 @@ export function SidePanel() {
     outputAudioPitch,
     setOutputAudioPitch,
     outputVolume,
-    setOutputVolume
+    setOutputVolume,
+    enableSettingUpdates
   } = useSettingsStore()
   
   const {
@@ -162,6 +163,7 @@ export function SidePanel() {
           }}
         >
           <NumberInput
+            enable={enableSettingUpdates}
             label={"Output Speed (WPM)"}
             initialValue={20}
             min={1}
@@ -176,6 +178,7 @@ export function SidePanel() {
           }}
         >
           <NumberInput
+            enable={enableSettingUpdates}
             label={"Spacing / Fansworth Speed (WPM)"}
             initialValue={20}
             min={1}
@@ -190,6 +193,7 @@ export function SidePanel() {
           }}
         >
           <NumberInput
+            enable={enableSettingUpdates}
             label={"Output Audio Pitch (Hz)"}
             initialValue={700}
             min={600}
@@ -204,6 +208,7 @@ export function SidePanel() {
           }}
         >
           <NumberInput
+            enable={enableSettingUpdates}
             label={"Number of Characters"}
             initialValue={50}
             min={1}
@@ -231,6 +236,7 @@ export function SidePanel() {
             direction='row'
           >
             <CheckboxInput
+              enable={enableSettingUpdates}
               label='Letters'
               value={lettersChecked}
               onChange={onLettersChange}
@@ -256,8 +262,8 @@ export function SidePanel() {
               <div
                 key={letter}>
                 <CheckboxInput
+                  enable={enableSettingUpdates}
                   label={letter}
-                  checkedByDefault={true}
                   level={1}
                   value={letterCheckStates[letter]}
                   onChange={(isChecked) => {
@@ -271,6 +277,7 @@ export function SidePanel() {
                       if (!characterSet.includes(letter)) return
                       newCharacters = characterSet.filter(value => value != letter)
                     }
+                    letterCheckStates[letter] = isChecked
                     setCharacterSet(newCharacters)
                     console.log(newCharacters)
                   }}
@@ -282,6 +289,7 @@ export function SidePanel() {
             direction='row'
           >
             <CheckboxInput
+              enable={enableSettingUpdates}
               label='Numbers'
               value={numbersChecked}
               onChange={onNumbersChange}
@@ -307,8 +315,8 @@ export function SidePanel() {
               <div
                 key={letter}>
                 <CheckboxInput
+                  enable={enableSettingUpdates}
                   label={letter}
-                  checkedByDefault={true}
                   level={1}
                   value={numberCheckStates[letter]}
                   onChange={(isChecked) => {
@@ -322,6 +330,7 @@ export function SidePanel() {
                       if (!characterSet.includes(letter)) return
                       newCharacters = characterSet.filter(value => value != letter)
                     }
+                    numberCheckStates[letter] = isChecked
                     setCharacterSet(newCharacters)
                     console.log(newCharacters)
                   }}
@@ -333,6 +342,7 @@ export function SidePanel() {
             direction='row'
           >
             <CheckboxInput
+              enable={enableSettingUpdates}
               label='Special'
               value={specialChecked}
               onChange={onSpecialChange}
@@ -358,6 +368,7 @@ export function SidePanel() {
               <div
                 key={letter}>
                 <CheckboxInput
+                  enable={enableSettingUpdates}
                   label={letter}
                   level={1}
                   value={specialCheckStates[letter]}

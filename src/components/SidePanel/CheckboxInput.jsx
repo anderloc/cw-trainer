@@ -6,6 +6,7 @@ export const CheckboxInput = (props) => {
   const { label, onChange } = props
   const level = props.level || 0
   const value = (props.value === true)
+  const enable = (props.enable === true)
 
   const handleChange = (event) => {
     const isChecked = event.target.checked
@@ -27,6 +28,7 @@ export const CheckboxInput = (props) => {
             marginLeft: 5 * level
           }}
           checked={value}
+          disabled={!enable}
           onChange={handleChange}
         />
       }
