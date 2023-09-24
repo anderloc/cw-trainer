@@ -1,12 +1,10 @@
-import { Accordion, AccordionSummary, Button, FormGroup, Link, Stack } from "@mui/material";
+import { Link, Stack } from "@mui/material";
 import { NumberInput } from "./NumberInput";
 import { CheckboxInput } from "./CheckboxInput";
-import { SliderInput } from "./SliderInput";
-import { play, codes } from 'cw'
 import { useTrainerStore, useSettingsStore } from "../../stores";
 import { LETTERS, NUMBERS, SPECIAL } from "../../constants/outputCharacters";
 import { useEffect, useState } from "react";
-import { ExpandMore, KeyboardArrowRight } from "@mui/icons-material";
+import { initialize } from "../MainContent/cwplayer";
 
 export function SidePanel() {
   const {
@@ -30,6 +28,7 @@ export function SidePanel() {
   } = useTrainerStore()
 
   useEffect(() => {
+    initialize()
     setCharactersLeft(50)
     onLettersChange(true)
     onNumbersChange(true)
@@ -393,17 +392,6 @@ export function SidePanel() {
           </div>
         </div>
       </div>
-      {/* <div
-        style={{
-          marginTop: 40
-        }}
-      >
-        <SliderInput
-          initialValue={100}
-          min={1}
-          value={100}
-        />
-      </div> */}
     </div>
   )
 }

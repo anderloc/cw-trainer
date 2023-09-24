@@ -1,8 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material"
 import { useTrainerStore, useSettingsStore } from '../../stores'
 import { Stack, Button } from "@mui/material"
-import { play } from "cw"
 import { useState } from "react"
+import { playAndWait } from "./cwplayer"
 
 export const MainContent = (props) => {
   const {
@@ -47,12 +47,7 @@ export const MainContent = (props) => {
     ) {
       let index = Math.floor(Math.random() * characterSet.length)
       let char = characterSet[index]
-      let waitTime = play(char, {
-        tone: outputAudioPitch,
-        wpm: outputWPM,
-        fwpm: farnsworthWPM
-      })
-      await new Promise(resolve => setTimeout(resolve, waitTime))
+      await playAndWait(char, outputAudioPitch, outputWPM, farnsworthWPM)
       setCharactersLeft(i - 1)
       played.push(char)
     }
@@ -81,12 +76,7 @@ export const MainContent = (props) => {
       ++i
     ) {
       let character = testWord[i]
-      let waitTime = play(character, {
-        tone: outputAudioPitch,
-        wpm: outputWPM,
-        fwpm: farnsworthWPM
-      })
-      await new Promise(resolve => setTimeout(resolve, waitTime))
+      await playAndWait(character, outputAudioPitch, outputWPM, farnsworthWPM)
     }
     setIsStartDisabled(false)
     setIsTestDisabled(false)
