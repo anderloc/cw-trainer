@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material"
-import { useButtonStore, useSettingsStore } from '../../stores'
+import { useTrainerStore, useSettingsStore } from '../../stores'
 import { Stack, Button } from "@mui/material"
 import { play } from "cw"
 import { useState } from "react"
@@ -17,14 +17,13 @@ export const MainContent = (props) => {
     setIsStopButtonClicked,
     charactersLeft,
     setCharactersLeft,
-    charactersPlayed,
-    setCharactersPlayed
-  } = useButtonStore()
+  } = useTrainerStore()
 
   const [isStartDisabled, setIsStartDisabled] = useState(false)
   const [isStopDisabled, setIsStopDisabled] = useState(true)
   const [isTestDisabled, setIsTestDisabled] = useState(false)
   const [showErrorDialog, setShowErrorDialog] = useState(false)
+  const [charactersPlayed, setCharactersPlayed] = useState([])
 
   const handleStartClick = async () => {
     if (characterSet.length == 0) {
@@ -41,7 +40,7 @@ export const MainContent = (props) => {
     let numChars = numberOfCharacters
     for (
       let i = numChars;
-      i > 0 && !(useButtonStore.getState().isStopButtonClicked);
+      i > 0 && !(useTrainerStore.getState().isStopButtonClicked);
       i--
     ) {
       let index = Math.floor(Math.random() * characterSet.length)
@@ -74,7 +73,7 @@ export const MainContent = (props) => {
     setIsTestDisabled(true)
     for (
       let i = 0;
-      i < testWord.length && !(useButtonStore.getState().isStopButtonClicked);
+      i < testWord.length && !(useTrainerStore.getState().isStopButtonClicked);
       ++i
     ) {
       let character = testWord[i]

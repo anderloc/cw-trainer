@@ -4,17 +4,15 @@ import { useState } from 'react'
 
 export const CheckboxInput = (props) => {
   const { label, onChange } = props
-  const defaultValue = props.checkedByDefault || false
+  const level = props.level || 0
+  const value = (props.value === true)
 
   const handleChange = (event) => {
     const isChecked = event.target.checked
-    setChecked(isChecked)
     if (onChange) {
       onChange(isChecked)
     }
   }
-
-  const [checked, setChecked] = useState(defaultValue)
 
   return (
     <>
@@ -25,9 +23,10 @@ export const CheckboxInput = (props) => {
             color: '#FFFFFF',
             '&.Mui-checked': {
               color: '#FFFFFF'
-            }
+            },
+            marginLeft: 5 * level
           }}
-          checked={checked}
+          checked={value}
           onChange={handleChange}
         />
       }

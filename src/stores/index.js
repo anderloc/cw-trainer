@@ -15,11 +15,9 @@ export const useSettingsStore = create((set) => ({
   setOutputVolume: (outputVolume) => set({outputVolume}),
 }))
 
-export const useButtonStore = create((set) => ({
+export const useTrainerStore = create((set) => ({
   isStopButtonClicked: false,
   setIsStopButtonClicked: (isStopButtonClicked) => set({isStopButtonClicked}),
   charactersLeft: 0,
   setCharactersLeft: (charactersLeft) => set({charactersLeft}),
-  charactersPlayed: [],
-  setCharactersPlayed: (charactersPlayed) => set({charactersPlayed})
 }))

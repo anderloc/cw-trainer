@@ -1,11 +1,12 @@
-import { FormGroup } from "@mui/material";
+import { Accordion, AccordionSummary, Button, FormGroup, Link, Stack } from "@mui/material";
 import { NumberInput } from "./NumberInput";
 import { CheckboxInput } from "./CheckboxInput";
 import { SliderInput } from "./SliderInput";
-import { play } from 'cw'
-import { useButtonStore, useSettingsStore } from "../../stores";
+import { play, codes } from 'cw'
+import { useTrainerStore, useSettingsStore } from "../../stores";
 import { LETTERS, NUMBERS, SPECIAL } from "../../constants/outputCharacters";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ExpandMore, KeyboardArrowRight } from "@mui/icons-material";
 
 export function SidePanel() {
   const {
@@ -15,6 +16,7 @@ export function SidePanel() {
     setFarnsworthWPM,
     numberOfCharacters,
     setNumberOfCharacters,
+    characterSet,
     setCharacterSet,
     outputAudioPitch,
     setOutputAudioPitch,
@@ -24,7 +26,7 @@ export function SidePanel() {
   
   const {
     setCharactersLeft
-  } = useButtonStore()
+  } = useTrainerStore()
 
   useEffect(() => {
     setCharactersLeft(50)
@@ -32,6 +34,37 @@ export function SidePanel() {
     onNumbersChange(true)
     onSpecialChange(true)
   }, [])
+
+  const [isLettersCollapsed, setIsLettersCollapsed] = useState(true)
+  const [lettersChecked, setLettersChecked] = useState(false)
+  const [letterCheckStates, setLetterCheckStates] = useState(() => {
+    const states = {}
+    LETTERS.forEach(letter => {
+      states[letter] = false
+    });
+    return states
+  })
+
+  const [isNumbersCollapsed, setIsNumbersCollapsed] = useState(true)
+  const [numbersChecked, setNumbersChecked] = useState(false)
+  const [numberCheckStates, setNumberCheckStates] = useState(() => {
+    const states = {}
+    NUMBERS.forEach(number => {
+      states[number] = false
+    });
+    return states
+  })
+
+  const [isSpecialCollapsed, setIsSpecialCollapsed] = useState(true)
+  const [specialChecked, setSpecialChecked] = useState(false)
+  const [specialCheckStates, setSpecialCheckStates] = useState(() => {
+    const states = {}
+    SPECIAL.forEach(special => {
+      states[special] = false
+    });
+    return states
+  })
+
 
   const onLettersChange = (isChecked) => {
     let newCharacters;
@@ -42,6 +75,14 @@ export function SidePanel() {
     } else {
       newCharacters = characterSet.filter(value => !LETTERS.includes(value))
     }
+
+    const newStates = {}
+    Object.keys(letterCheckStates).forEach(key => {
+      newStates[key] = isChecked
+    })
+    setLetterCheckStates(newStates)
+
+    setLettersChecked(isChecked)
     setCharacterSet(newCharacters)
     console.log(newCharacters)
   }
@@ -55,6 +96,14 @@ export function SidePanel() {
     } else {
       newCharacters = characterSet.filter(value => !NUMBERS.includes(value))
     }
+
+    const newStates = {}
+    Object.keys(numberCheckStates).forEach(key => {
+      newStates[key] = isChecked
+    })
+    setNumberCheckStates(newStates)
+
+    setNumbersChecked(isChecked)
     setCharacterSet(newCharacters)
     console.log(newCharacters)
   }
@@ -68,6 +117,14 @@ export function SidePanel() {
     } else {
       newCharacters = characterSet.filter(value => !SPECIAL.includes(value))
     }
+
+    const newStates = {}
+    Object.keys(specialCheckStates).forEach(key => {
+      newStates[key] = isChecked
+    })
+    setSpecialCheckStates(newStates)
+
+    setSpecialChecked(isChecked)
     setCharacterSet(newCharacters)
     console.log(newCharacters)
   }
@@ -77,7 +134,8 @@ export function SidePanel() {
       style={{
         // width: 381,
         background: '#35155D',
-        minHeight: '100vh',
+        height: '100vh',
+        overflow: 'scroll'
         // float: 'left'
       }}
     >
@@ -169,23 +227,159 @@ export function SidePanel() {
           >
             Output Characters
           </p>
-          <FormGroup>
+          <Stack
+            direction='row'
+          >
             <CheckboxInput
               label='Letters'
-              checkedByDefault={true}
+              value={lettersChecked}
               onChange={onLettersChange}
-            />
+              />
+            <Link
+              style={{
+                cursor: 'pointer',
+                paddingTop: 13
+              }}
+              onClick={() => {
+                setIsLettersCollapsed(!isLettersCollapsed)
+              }}
+            >
+              {isLettersCollapsed ? 'Expand' : 'Collapse'}
+            </Link>
+          </Stack>
+          <div
+            style={{
+              display: isLettersCollapsed ? 'none' : 'block'
+            }}
+          >
+            {LETTERS.map(letter => (
+              <div
+                key={letter}>
+                <CheckboxInput
+                  label={letter}
+                  checkedByDefault={true}
+                  level={1}
+                  value={letterCheckStates[letter]}
+                  onChange={(isChecked) => {
+                    let newCharacters;
+                    let characterSet = useSettingsStore.getState().characterSet
+                    console.log(letter)
+                    if (isChecked) {
+                      if (characterSet.includes(letter)) return
+                      newCharacters = characterSet.concat([letter])
+                    } else {
+                      if (!characterSet.includes(letter)) return
+                      newCharacters = characterSet.filter(value => value != letter)
+                    }
+                    setCharacterSet(newCharacters)
+                    console.log(newCharacters)
+                  }}
+                />
+              </div>
+              ))}
+          </div>
+          <Stack
+            direction='row'
+          >
             <CheckboxInput
               label='Numbers'
-              checkedByDefault={true}
+              value={numbersChecked}
               onChange={onNumbersChange}
             />
+            <Link
+              style={{
+                cursor: 'pointer',
+                paddingTop: 13
+              }}
+              onClick={() => {
+                setIsNumbersCollapsed(!isNumbersCollapsed)
+              }}
+            >
+              {isNumbersCollapsed ? 'Expand' : 'Collapse'}
+            </Link>
+          </Stack>
+          <div
+            style={{
+              display: isNumbersCollapsed ? 'none' : 'block'
+            }}
+          >
+            {NUMBERS.map(letter => (
+              <div
+                key={letter}>
+                <CheckboxInput
+                  label={letter}
+                  checkedByDefault={true}
+                  level={1}
+                  value={numberCheckStates[letter]}
+                  onChange={(isChecked) => {
+                    let newCharacters;
+                    let characterSet = useSettingsStore.getState().characterSet
+                    console.log(letter)
+                    if (isChecked) {
+                      if (characterSet.includes(letter)) return
+                      newCharacters = characterSet.concat([letter])
+                    } else {
+                      if (!characterSet.includes(letter)) return
+                      newCharacters = characterSet.filter(value => value != letter)
+                    }
+                    setCharacterSet(newCharacters)
+                    console.log(newCharacters)
+                  }}
+                />
+              </div>
+              ))}
+          </div>
+          <Stack
+            direction='row'
+          >
             <CheckboxInput
               label='Special'
-              checkedByDefault={true}
+              value={specialChecked}
               onChange={onSpecialChange}
             />
-          </FormGroup>
+            <Link
+              style={{
+                cursor: 'pointer',
+                paddingTop: 13
+              }}
+              onClick={() => {
+                setIsSpecialCollapsed(!isSpecialCollapsed)
+              }}
+            >
+              {isSpecialCollapsed ? 'Expand' : 'Collapse'}
+            </Link>
+          </Stack>
+          <div
+            style={{
+              display: isSpecialCollapsed ? 'none' : 'block'
+            }}
+          >
+            {SPECIAL.map(letter => (
+              <div
+                key={letter}>
+                <CheckboxInput
+                  label={letter}
+                  level={1}
+                  value={specialCheckStates[letter]}
+                  onChange={(isChecked) => {
+                    let newCharacters;
+                    let characterSet = useSettingsStore.getState().characterSet
+                    console.log(letter)
+                    if (isChecked) {
+                      if (characterSet.includes(letter)) return
+                      newCharacters = characterSet.concat([letter])
+                    } else {
+                      if (!characterSet.includes(letter)) return
+                      newCharacters = characterSet.filter(value => value != letter)
+                    }
+                    specialCheckStates[letter] = isChecked
+                    setCharacterSet(newCharacters)
+                    console.log(newCharacters)
+                  }}
+                />
+              </div>
+              ))}
+          </div>
         </div>
       </div>
       {/* <div
