@@ -135,7 +135,7 @@ export function SidePanel() {
         // width: 381,
         background: '#35155D',
         height: '100vh',
-        overflow: 'scroll'
+        overflow: 'auto'
         // float: 'left'
       }}
     >
