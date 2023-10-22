@@ -135,7 +135,7 @@ export function SidePanel() {
         // width: 381,
         background: '#35155D',
         height: '100vh',
-        overflow: 'scroll'
+        overflow: 'auto'
         // float: 'left'
       }}
     >
@@ -278,6 +278,7 @@ export function SidePanel() {
                     }
                     letterCheckStates[letter] = isChecked
                     setCharacterSet(newCharacters)
+                    setLettersChecked(true)
                     console.log(newCharacters)
                   }}
                 />
@@ -331,6 +332,7 @@ export function SidePanel() {
                     }
                     numberCheckStates[letter] = isChecked
                     setCharacterSet(newCharacters)
+                    setNumbersChecked(true)
                     console.log(newCharacters)
                   }}
                 />
@@ -384,6 +386,7 @@ export function SidePanel() {
                     }
                     specialCheckStates[letter] = isChecked
                     setCharacterSet(newCharacters)
+                    setSpecialChecked(true)
                     console.log(newCharacters)
                   }}
                 />
